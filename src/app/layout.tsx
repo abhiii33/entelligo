@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Providers } from "./providers";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const instrumentSansHeading = Instrument_Sans({subsets:['latin'],variable:'--font-heading'});
 
@@ -29,7 +30,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, instrumentSansHeading.variable)}
     >
       <Providers>
-      <body className="min-h-full flex flex-col justify-center bg-gray-900 text-white ">{children}</body>
+      <body className="min-h-full flex flex-col justify-center bg-gray-900 text-white ">
+         <TooltipProvider>{children}</TooltipProvider></body>
       </Providers>
     </html>
   );

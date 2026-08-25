@@ -48,73 +48,78 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* VS Code "Dark Modern"-style theme extracted from the editor screenshot.
+   This is the default — the whole portfolio chrome (title bar, activity bar,
+   sidebar, terminal) is dark, so :root carries the dark palette directly. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.488 0.243 264.376);
-  --primary-foreground: oklch(0.97 0.014 254.604);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
-  --chart-1: oklch(0.871 0.006 286.286);
-  --chart-2: oklch(0.552 0.016 285.938);
-  --chart-3: oklch(0.442 0.017 285.786);
-  --chart-4: oklch(0.37 0.013 285.805);
-  --chart-5: oklch(0.274 0.006 286.033);
+  --background: oklch(0.166 0.013 277.509);        /* editor bg — near-black navy */
+  --foreground: oklch(0.925 0.007 268.545);         /* primary text — off-white */
+  --card: oklch(0.216 0.024 273.384);               /* code block / panel bg */
+  --card-foreground: oklch(0.925 0.007 268.545);
+  --popover: oklch(0.216 0.024 273.384);
+  --popover-foreground: oklch(0.925 0.007 268.545);
+  --primary: oklch(0.623 0.188 259.815);            /* "View My Work" blue */
+  --primary-foreground: oklch(0.981 0.009 258.335);
+  --secondary: oklch(0.255 0.027 272.015);          /* skill badge bg */
+  --secondary-foreground: oklch(0.885 0.010 267.351);
+  --muted: oklch(0.233 0.024 273.557);
+  --muted-foreground: oklch(0.656 0.029 273.892);   /* body copy gray */
+  --accent: oklch(0.262 0.029 270.060);              /* hover state bg */
+  --accent-foreground: oklch(0.981 0.009 258.335);
+  --destructive: oklch(0.637 0.208 25.331);
+  --border: oklch(0.304 0.028 273.036);
+  --input: oklch(0.287 0.026 272.250);
+  --ring: oklch(0.623 0.188 259.815);
+  --chart-1: oklch(0.623 0.188 259.815);            /* blue — buttons, links */
+  --chart-2: oklch(0.797 0.134 211.530);            /* cyan — "Tiwari" heading, TS badge */
+  --chart-3: oklch(0.800 0.182 151.711);            /* green — terminal "Ready" text */
+  --chart-4: oklch(0.837 0.164 84.429);             /* yellow — JS badge, warnings */
+  --chart-5: oklch(0.709 0.159 293.541);            /* purple — accent variety */
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.546 0.245 262.881);
-  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.705 0.015 286.067);
+  --sidebar: oklch(0.151 0.011 276.174);            /* activity bar — near black */
+  --sidebar-foreground: oklch(0.839 0.013 271.261);
+  --sidebar-primary: oklch(0.623 0.188 259.815);
+  --sidebar-primary-foreground: oklch(0.981 0.009 258.335);
+  --sidebar-accent: oklch(0.219 0.020 271.666);     /* explorer row hover/active */
+  --sidebar-accent-foreground: oklch(0.981 0.009 258.335);
+  --sidebar-border: oklch(0.266 0.019 271.953);
+  --sidebar-ring: oklch(0.623 0.188 259.815);
 }
 
+/* .dark kept identical to :root so toggling the class (or forcing dark mode
+   with next-themes) never changes anything — there is no light variant. */
 .dark {
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.424 0.199 265.638);
-  --primary-foreground: oklch(0.97 0.014 254.604);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.552 0.016 285.938);
-  --chart-1: oklch(0.871 0.006 286.286);
-  --chart-2: oklch(0.552 0.016 285.938);
-  --chart-3: oklch(0.442 0.017 285.786);
-  --chart-4: oklch(0.37 0.013 285.805);
-  --chart-5: oklch(0.274 0.006 286.033);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.623 0.214 259.815);
-  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.552 0.016 285.938);
+  --background: oklch(0.166 0.013 277.509);
+  --foreground: oklch(0.925 0.007 268.545);
+  --card: oklch(0.216 0.024 273.384);
+  --card-foreground: oklch(0.925 0.007 268.545);
+  --popover: oklch(0.216 0.024 273.384);
+  --popover-foreground: oklch(0.925 0.007 268.545);
+  --primary: oklch(0.623 0.188 259.815);
+  --primary-foreground: oklch(0.981 0.009 258.335);
+  --secondary: oklch(0.255 0.027 272.015);
+  --secondary-foreground: oklch(0.885 0.010 267.351);
+  --muted: oklch(0.233 0.024 273.557);
+  --muted-foreground: oklch(0.656 0.029 273.892);
+  --accent: oklch(0.262 0.029 270.060);
+  --accent-foreground: oklch(0.981 0.009 258.335);
+  --destructive: oklch(0.637 0.208 25.331);
+  --border: oklch(0.304 0.028 273.036);
+  --input: oklch(0.287 0.026 272.250);
+  --ring: oklch(0.623 0.188 259.815);
+  --chart-1: oklch(0.623 0.188 259.815);
+  --chart-2: oklch(0.797 0.134 211.530);
+  --chart-3: oklch(0.800 0.182 151.711);
+  --chart-4: oklch(0.837 0.164 84.429);
+  --chart-5: oklch(0.709 0.159 293.541);
+  --sidebar: oklch(0.151 0.011 276.174);
+  --sidebar-foreground: oklch(0.839 0.013 271.261);
+  --sidebar-primary: oklch(0.623 0.188 259.815);
+  --sidebar-primary-foreground: oklch(0.981 0.009 258.335);
+  --sidebar-accent: oklch(0.219 0.020 271.666);
+  --sidebar-accent-foreground: oklch(0.981 0.009 258.335);
+  --sidebar-border: oklch(0.266 0.019 271.953);
+  --sidebar-ring: oklch(0.623 0.188 259.815);
 }
 
 @layer base {
