@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-mono);
-  --font-heading: var(--font-heading);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -27,6 +27,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -39,87 +40,105 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* NOTE: the design system gives explicit, independent radius values —
+     not a single-base multiplier scale like the previous theme — so each
+     step is hardcoded to match the spec exactly rather than derived. */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* spec's chrome-shell measurements (spacing.activity-bar-w / sidebar-w) —
+     exposed under --width-* so Tailwind generates w-activity-bar /
+     w-ide-sidebar utilities directly, instead of hand-writing arbitrary
+     values like w-[13.5rem] at every call site. */
+  --width-activity-bar: 3rem;
+  --width-ide-sidebar: 13.5rem;
 }
 
-/* VS Code "Dark Modern"-style theme extracted from the editor screenshot.
-   This is the default — the whole portfolio chrome (title bar, activity bar,
-   sidebar, terminal) is dark, so :root carries the dark palette directly. */
 :root {
-  --background: oklch(0.166 0.013 277.509);        /* editor bg — near-black navy */
-  --foreground: oklch(0.925 0.007 268.545);         /* primary text — off-white */
-  --card: oklch(0.216 0.024 273.384);               /* code block / panel bg */
-  --card-foreground: oklch(0.925 0.007 268.545);
-  --popover: oklch(0.216 0.024 273.384);
-  --popover-foreground: oklch(0.925 0.007 268.545);
-  --primary: oklch(0.623 0.188 259.815);            /* "View My Work" blue */
-  --primary-foreground: oklch(0.981 0.009 258.335);
-  --secondary: oklch(0.255 0.027 272.015);          /* skill badge bg */
-  --secondary-foreground: oklch(0.885 0.010 267.351);
-  --muted: oklch(0.233 0.024 273.557);
-  --muted-foreground: oklch(0.656 0.029 273.892);   /* body copy gray */
-  --accent: oklch(0.262 0.029 270.060);              /* hover state bg */
-  --accent-foreground: oklch(0.981 0.009 258.335);
-  --destructive: oklch(0.637 0.208 25.331);
-  --border: oklch(0.304 0.028 273.036);
-  --input: oklch(0.287 0.026 272.250);
-  --ring: oklch(0.623 0.188 259.815);
-  --chart-1: oklch(0.623 0.188 259.815);            /* blue — buttons, links */
-  --chart-2: oklch(0.797 0.134 211.530);            /* cyan — "Tiwari" heading, TS badge */
-  --chart-3: oklch(0.800 0.182 151.711);            /* green — terminal "Ready" text */
-  --chart-4: oklch(0.837 0.164 84.429);             /* yellow — JS badge, warnings */
-  --chart-5: oklch(0.709 0.159 293.541);            /* purple — accent variety */
-  --radius: 0.625rem;
-  --sidebar: oklch(0.151 0.011 276.174);            /* activity bar — near black */
-  --sidebar-foreground: oklch(0.839 0.013 271.261);
-  --sidebar-primary: oklch(0.623 0.188 259.815);
-  --sidebar-primary-foreground: oklch(0.981 0.009 258.335);
-  --sidebar-accent: oklch(0.219 0.020 271.666);     /* explorer row hover/active */
-  --sidebar-accent-foreground: oklch(0.981 0.009 258.335);
-  --sidebar-border: oklch(0.266 0.019 271.953);
-  --sidebar-ring: oklch(0.623 0.188 259.815);
+  /* ---- surfaces (M3 tonal scale, darkest → lightest) ---- */
+  --background: #040F18;          /* #10141a */
+  --foreground: oklch(0.913 0.013 271.277);          /* #dfe2eb — on-background */
+  --card: oklch(0.242 0.013 258.372);                /* #1c2026 — surface-container */
+  --card-foreground: oklch(0.913 0.013 271.277);
+  --popover: oklch(0.284 0.014 261.695);             /* #262a31 — surface-container-high */
+  --popover-foreground: oklch(0.913 0.013 271.277);
+  --muted: oklch(0.225 0.013 258.371);               /* #181c22 — surface-container-low */
+  --muted-foreground: oklch(0.828 0.018 261.332);    /* #c0c7d3 — on-surface-variant */
+  --accent: oklch(0.284 0.014 261.695);              /* #262a31 — hover state */
+  --accent-foreground: oklch(0.913 0.013 271.277);
+
+  /* ---- brand ---- */
+  --primary: oklch(0.567 0.155 248.516);             /* #007acc — primary-container, the actual button fill per spec */
+  --primary-foreground: oklch(1.000 0.000 89.876);   /* #ffffff — on-primary-container */
+  --secondary: oklch(0.284 0.014 261.695);           /* #262a31 — neutral chip/badge bg (shadcn's "secondary" slot; the spec's tonal secondary/tertiary swatches live in --chart-* instead, see below) */
+  --secondary-foreground: oklch(0.913 0.013 271.277);
+
+  /* ---- borders / rings ---- */
+  --border: #0D1E2C;              /* #404751 — outline-variant */
+  --input: oklch(0.328 0.014 261.722);               /* #31353c — surface-variant */
+  --ring: oklch(0.827 0.088 253.977);                /* #9fcaff — primary tint, spec's dedicated focus-ring color */
+
+  /* ---- destructive ---- */
+  --destructive: oklch(0.417 0.170 27.379);          /* #93000a — error-container, solid fill */
+  --destructive-foreground: oklch(0.838 0.089 26.757); /* #ffb4ab — on-error(-container) text */
+
+  /* ---- chart/accent tokens — these carry the spec's prose-only colors
+     that have no YAML equivalent: syntax highlights + status colors ---- */
+  --chart-1: oklch(0.567 0.155 248.516);   /* #007acc — primary blue */
+  --chart-2: oklch(0.754 0.139 232.661);   /* #38bdf8 — secondary cyan, hero-text/active-link accent */
+  --chart-3: oklch(0.723 0.192 149.579);   /* #22c55e — status green, "Open to work" beacon */
+  --chart-4: oklch(0.769 0.165 70.080);    /* #f59e0b — warning amber */
+  --chart-5: oklch(0.722 0.177 305.504);   /* #c084fc — syntax purple */
+
+  /* ---- chrome shell (activity bar + tree sidebar) ---- */
+  --sidebar: oklch(0.162 0.014 258.363);             /* #0a0e14 — surface-container-lowest */
+  --sidebar-foreground: oklch(0.913 0.013 271.277);
+  --sidebar-primary: oklch(0.567 0.155 248.516);
+  --sidebar-primary-foreground: oklch(1.000 0.000 89.876);
+  --sidebar-accent: oklch(0.225 0.013 258.371);      /* #181c22 — explorer row hover/active */
+  --sidebar-accent-foreground: oklch(0.913 0.013 271.277);
+  --sidebar-border: oklch(0.395 0.019 257.257);
+  --sidebar-ring: oklch(0.827 0.088 253.977);
 }
 
-/* .dark kept identical to :root so toggling the class (or forcing dark mode
-   with next-themes) never changes anything — there is no light variant. */
+/* no light-mode counterpart — spec is dark-only ("Deep Slate Canvas") */
 .dark {
-  --background: oklch(0.166 0.013 277.509);
-  --foreground: oklch(0.925 0.007 268.545);
-  --card: oklch(0.216 0.024 273.384);
-  --card-foreground: oklch(0.925 0.007 268.545);
-  --popover: oklch(0.216 0.024 273.384);
-  --popover-foreground: oklch(0.925 0.007 268.545);
-  --primary: oklch(0.623 0.188 259.815);
-  --primary-foreground: oklch(0.981 0.009 258.335);
-  --secondary: oklch(0.255 0.027 272.015);
-  --secondary-foreground: oklch(0.885 0.010 267.351);
-  --muted: oklch(0.233 0.024 273.557);
-  --muted-foreground: oklch(0.656 0.029 273.892);
-  --accent: oklch(0.262 0.029 270.060);
-  --accent-foreground: oklch(0.981 0.009 258.335);
-  --destructive: oklch(0.637 0.208 25.331);
-  --border: oklch(0.304 0.028 273.036);
-  --input: oklch(0.287 0.026 272.250);
-  --ring: oklch(0.623 0.188 259.815);
-  --chart-1: oklch(0.623 0.188 259.815);
-  --chart-2: oklch(0.797 0.134 211.530);
-  --chart-3: oklch(0.800 0.182 151.711);
-  --chart-4: oklch(0.837 0.164 84.429);
-  --chart-5: oklch(0.709 0.159 293.541);
-  --sidebar: oklch(0.151 0.011 276.174);
-  --sidebar-foreground: oklch(0.839 0.013 271.261);
-  --sidebar-primary: oklch(0.623 0.188 259.815);
-  --sidebar-primary-foreground: oklch(0.981 0.009 258.335);
-  --sidebar-accent: oklch(0.219 0.020 271.666);
-  --sidebar-accent-foreground: oklch(0.981 0.009 258.335);
-  --sidebar-border: oklch(0.266 0.019 271.953);
-  --sidebar-ring: oklch(0.623 0.188 259.815);
+  --background: oklch(0.190 0.014 258.363);
+  --foreground: oklch(0.913 0.013 271.277);
+  --card: oklch(0.242 0.013 258.372);
+  --card-foreground: oklch(0.913 0.013 271.277);
+  --popover: oklch(0.284 0.014 261.695);
+  --popover-foreground: oklch(0.913 0.013 271.277);
+  --muted: oklch(0.225 0.013 258.371);
+  --muted-foreground: oklch(0.828 0.018 261.332);
+  --accent: oklch(0.284 0.014 261.695);
+  --accent-foreground: oklch(0.913 0.013 271.277);
+  --primary: oklch(0.567 0.155 248.516);
+  --primary-foreground: oklch(1.000 0.000 89.876);
+  --secondary: oklch(0.284 0.014 261.695);
+  --secondary-foreground: oklch(0.913 0.013 271.277);
+  --border: oklch(0.555 0.076 239.34);
+  --input: oklch(0.328 0.014 261.722);
+  --ring: oklch(0.827 0.088 253.977);
+  --destructive: oklch(0.417 0.170 27.379);
+  --destructive-foreground: oklch(0.838 0.089 26.757);
+  --chart-1: oklch(0.567 0.155 248.516);
+  --chart-2: oklch(0.754 0.139 232.661);
+  --chart-3: oklch(0.723 0.192 149.579);
+  --chart-4: oklch(0.769 0.165 70.080);
+  --chart-5: oklch(0.722 0.177 305.504);
+  --sidebar: oklch(0.162 0.014 258.363);
+  --sidebar-foreground: oklch(0.913 0.013 271.277);
+  --sidebar-primary: oklch(0.567 0.155 248.516);
+  --sidebar-primary-foreground: oklch(1.000 0.000 89.876);
+  --sidebar-accent: oklch(0.225 0.013 258.371);
+  --sidebar-accent-foreground: oklch(0.913 0.013 271.277);
+  --sidebar-border: oklch(0.395 0.019 257.257);
+  --sidebar-ring: oklch(0.827 0.088 253.977);
 }
 
 @layer base {
@@ -127,9 +146,28 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    /* CHANGED from the previous file: body copy is now Inter, not mono.
+       The spec assigns three distinct typefaces by role (see below) — 
+       forcing everything to font-mono was correct for the earlier
+       VS-Code-screenshot extraction, but this spec explicitly wants
+       body text legible in Inter, headings in Space Grotesk, and mono
+       reserved for code/labels only. */
+    @apply bg-background text-foreground font-sans;
   }
-  html {
-    @apply font-mono;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
   }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 20s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
 }
