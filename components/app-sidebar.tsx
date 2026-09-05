@@ -69,18 +69,52 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {navMain.map((item) => (
           <SidebarMenuItem key={item.title} className="w-full">
             <SidebarMenuButton
-              size="icon"
-              tooltip={{ children: item.title, hidden: false }}
-              onClick={() => handleClick(item)}
-              isActive={activeItem.title === item.title}
-              aria-label={item.title}
-            >
-              {item.icon}
-              {/* NOTE: visually hidden, not removed — keeps this button
-                  discoverable by name for screen readers even though the
-                  label is never painted (tooltip covers sighted users) */}
-              <span className="sr-only">{item.title}</span>
-            </SidebarMenuButton>
+  size="icon"
+  tooltip={{ children: item.title, hidden: false }}
+  onClick={() => handleClick(item)}
+  isActive={activeItem?.title === item.title}
+  aria-label={item.title}
+  className="
+    relative
+    mx-auto
+    size-10
+    rounded-md
+    text-slate-500
+    transition-all
+    duration-200
+
+    hover:bg-[#0F1C2E]
+    hover:text-[#00D4FF]
+
+    data-[active=true]:bg-[#0F1C2E]
+    data-[active=true]:text-[#00D4FF]
+
+    data-[active=true]:shadow-[inset_0_0_12px_rgba(0,212,255,0.08)]
+  "
+>
+  {item.icon}
+
+  <span className="sr-only">
+    {item.title}
+  </span>
+
+  {/* Active indicator */}
+  {activeItem?.title === item.title && (
+    <span
+      className="
+        absolute
+        left-0
+        top-1/2
+        h-6
+        w-[2px]
+        -translate-y-1/2
+        rounded-r
+        bg-[#00D4FF]
+        shadow-[0_0_8px_rgba(0,212,255,0.7)]
+      "
+    />
+  )}
+</SidebarMenuButton>
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
