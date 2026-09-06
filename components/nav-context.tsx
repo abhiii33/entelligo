@@ -28,7 +28,7 @@ export type NavItem = {
 export const navMain: NavItem[] = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: <RiTerminalBoxLine />,
 items: [
   {
@@ -63,37 +63,37 @@ items: [
   },
 ],
   },
-  {
-    title: "Models",
-    url: "#",
-    icon: <RiRobotLine />,
-    items: [
-      { title: "Genesis", url: "#" },
-      { title: "Explorer", url: "#" },
-      { title: "Quantum", url: "#" },
-    ],
-  },
-  {
-    title: "Documentation",
-    url: "#",
-    icon: <RiBookOpenLine />,
-    items: [
-      { title: "Introduction", url: "#" },
-      { title: "Get Started", url: "#" },
-      { title: "Tutorials", url: "#" },
-      { title: "Changelog", url: "#" },
-    ],
-  },
-  {
-    title: "Upcoming Features",
-    url: "#",
-    icon: <RiCropLine />,
-    items: [
-      { title: "Design Engineering", url: "#" },
-      { title: "Sales & Marketing", url: "#" },
-      { title: "Travel", url: "#" },
-    ],
-  },
+  // {
+  //   title: "Models",
+  //   url: "#",
+  //   icon: <RiRobotLine />,
+  //   items: [
+  //     { title: "Genesis", url: "#" },
+  //     { title: "Explorer", url: "#" },
+  //     { title: "Quantum", url: "#" },
+  //   ],
+  // },
+  // {
+  //   title: "Documentation",
+  //   url: "#",
+  //   icon: <RiBookOpenLine />,
+  //   items: [
+  //     { title: "Introduction", url: "#" },
+  //     { title: "Get Started", url: "#" },
+  //     { title: "Tutorials", url: "#" },
+  //     { title: "Changelog", url: "#" },
+  //   ],
+  // },
+  // {
+  //   title: "Upcoming Features",
+  //   url: "#",
+  //   icon: <RiCropLine />,
+  //   items: [
+  //     { title: "Design Engineering", url: "#" },
+  //     { title: "Sales & Marketing", url: "#" },
+  //     { title: "Travel", url: "#" },
+  //   ],
+  // },
 ]
 
 export const navFooter: NavItem[] = [

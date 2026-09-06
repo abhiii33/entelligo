@@ -2,7 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-
+import {useRouter} from "next/navigation";
+import Link from "next/link";
 import {
   RiArrowRightLine,
   RiSearchLine,
@@ -14,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 
 const articles = [
   {
+    id: 1,
     title: "Getting Started with Next.js 14",
     description:
       "A beginner's guide to the latest features in Next.js and how to build modern web applications.",
@@ -22,7 +24,8 @@ const articles = [
     category: "Next.js",
     image: "/images/blog/nextjs.jpg",
   },
-  {
+  { 
+    id: 2,
     title: "How I Improved My Website Performance by 40%",
     description:
       "Key strategies and techniques I used to improve Core Web Vitals and overall frontend performance.",
@@ -32,6 +35,7 @@ const articles = [
     image: "/images/blog/performance.jpg",
   },
   {
+    id: 3,
     title: "Building AI-Powered Apps with OpenAI",
     description:
       "A practical guide to integrating AI APIs into modern web applications.",
@@ -41,6 +45,7 @@ const articles = [
     image: "/images/blog/ai.jpg",
   },
   {
+    id: 4,  
     title: "Why I Love TypeScript",
     description:
       "How TypeScript makes applications easier to maintain and helps teams build scalable products.",
@@ -88,7 +93,7 @@ export default function Blogs() {
       <section className="mt-7">
         <Card className="border-[#1A2A3A] bg-[#0A131E]/60">
           <CardContent className="divide-y divide-[#1A2A3A] p-0">
-
+         
             {articles.map((article) => (
               <article
                 key={article.title}
@@ -143,9 +148,9 @@ export default function Blogs() {
 
                 {/* Arrow */}
 
-                <div className="hidden items-center sm:flex">
+                <Link href={`/blogs/${article.id}`} className="hidden items-center sm:flex">
                   <RiArrowRightLine className="h-5 w-5 text-[#007ACC] transition-transform group-hover:translate-x-1" />
-                </div>
+                </Link>
               </article>
             ))}
 

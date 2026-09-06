@@ -1,6 +1,7 @@
 
 "use client";
 
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
@@ -28,31 +29,31 @@ export default function Page() {
         <div className="min-w-0 pt-2">
           {/* Introduction */}
 
-          <p className="text-lg text-muted-foreground">
+          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-lg text-muted-foreground">
             Hi, I&apos;m
-          </p>
+          </motion.p>
 
-          <h1 className="mt-2 text-4xl font-bold tracking-tight md:text-5xl xl:text-6xl">
+          <motion.h1 initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }} className="mt-2 text-4xl font-bold tracking-tight md:text-5xl xl:text-6xl">
             Abhishek{" "}
             <span className="text-[#007ACC]">
               Tiwari
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="mt-3 text-xl font-medium text-[#00D4FF] md:text-2xl">
+          <motion.p initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.55 }} className="mt-3 text-xl font-medium text-[#00D4FF] md:text-2xl">
             Full Stack Developer
-          </p>
+          </motion.p>
 
-          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
+          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.7 }} className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
             I build fast, responsive and accessible web applications
             using modern technologies like React, Next.js and
             TypeScript. Passionate about clean code, performance and
             intuitive user experiences.
-          </p>
+          </motion.p>
 
           {/* CTA */}
 
-          <div className="mt-7 flex flex-wrap gap-4">
+          <motion.div initial="hidden" animate="visible" variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12, delayChildren: 0.85 } } }} className="mt-7 flex flex-wrap gap-4">
             <Button
               variant="default"
               size="lg"
@@ -77,9 +78,9 @@ export default function Page() {
             >
               Download Resume
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="mt-9">
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1.05 }} className="mt-9">
             <h2 className="mb-4 text-xl font-semibold">
               Connect With Me
             </h2>
@@ -119,12 +120,12 @@ export default function Page() {
                 </a>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
 
         <div className="relative flex w-full flex-col gap-6">
           <div className="flex w-full justify-center lg:justify-end">
-            <div className="relative w-full max-w-[500px]">
+            <motion.div initial={{ opacity: 0, scale: 0.92, x: 30 }} animate={{ opacity: 1, scale: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.25, ease: "easeOut" }} whileHover={{ scale: 1.012 }} className="relative w-full max-w-[500px]">
               <Image
                 src="/images/kid1.jpg"
                 alt="Abhishek Tiwari"
@@ -169,10 +170,11 @@ export default function Page() {
                   Open to work
                 </span>
               </div>
-            </div>
+            </motion.div>
           </div>
 
 
+      <motion.div initial={{ opacity: 0, y: 20, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.7, delay: 0.65 }}>
       <Card
   className={`w-full
     border-[#1A2A3A]
@@ -379,6 +381,7 @@ export default function Page() {
               </pre>
             </CardContent>
           </Card>
+      </motion.div>
         </div>
       </section>
 <section className="mt-12 w-full">
@@ -431,6 +434,12 @@ export default function Page() {
   <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
     {/* Project cards will go here */}
     {projects.map((project, index) => (
+        <motion.div
+    key={index}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 1.2 + index * 0.1 }}
+  >
       <Card
         key={index}
         className="
@@ -456,12 +465,12 @@ export default function Page() {
             "
           /> */}
           <div className="">
-            <h3 className="text-lg font-semibold">{project.name}</h3>
+            <h3 className="text-lg font-semibold text-[#00D4FF]">{project.title}</h3>
             <p className="mt-2 text-sm text-muted-foreground">
               {project.description}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {project.techStack.map((tech, techIndex) => (
+              {project.technologies?.map((tech, techIndex) => (
                 <Badge
                   key={techIndex}
                   variant="contact"
@@ -482,12 +491,10 @@ export default function Page() {
           </div>
         </CardContent>
       </Card>
+      </motion.div>
     ))}
   </div>
 </section>
-
-
-
     </main>
   );
 }
@@ -501,7 +508,7 @@ const socialLinks = [
   {
     name: "LinkedIn",
     url: "https://www.linkedin.com/",
-    icon: "/images/Linkedin.svg",
+    icon: "/images/LinkedIN.svg",
   },
   {
     name: "Twitter",
@@ -579,21 +586,29 @@ const techStack = [
 
 const projects = [
   {
-    name: "Project 1",
-    description: "Description of Project 1",
-    image: "/images/project1.jpg",
-    techStack: ["React", "Next.js", "TypeScript"],
+    title: "ZeeCare Hospital Management",
+    description:
+      "A complete hospital management platform with appointment scheduling, patient records, billing and administrative workflows.",
+    image: "/images/projects/zeecare.png",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
+    category: "Web Apps",
+    demo: "#",
+    github: "#",
   },
-  {
-    name: "Project 2",
-    description: "Description of Project 2",
-    image: "/images/project2.jpg",
-     techStack: ["React", "Next.js", "TypeScript"],
+   {
+    title: "AI Content Studio",
+    description:
+      "AI-powered content generation platform with reusable templates, content history and export functionality.",
+    image: "/images/projects/ai-content.png",
+    technologies: ["Next.js", "OpenAI API", "Prisma"],
+    category: "AI & Tools",
+    demo: "#",
+    github: "#",
   },
-  {
-    name: "Project 3",
-    description: "Description of Project 3",
-    image: "/images/project3.jpg",
-     techStack: ["React", "Next.js", "TypeScript"],
-  },
+  // {
+  //   name: "Project 3",
+  //   description: "Description of Project 3",
+  //   image: "/images/project3.jpg",
+  //    techStack: ["React", "Next.js", "TypeScript"],
+  // },
 ];
