@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import {
@@ -35,46 +35,6 @@ const projects = [
     demo: "#",
     github: "#",
   },
-  {
-    title: "DevBlog",
-    description:
-      "A modern developer blogging platform with MDX support, syntax highlighting, categories and dark mode.",
-    image: "/images/projects/devblog.png",
-    technologies: ["Next.js", "MDX", "Tailwind CSS"],
-    category: "Web Apps",
-    demo: "#",
-    github: "#",
-  },
-  {
-    title: "TaskFlow",
-    description:
-      "A minimal productivity and task management application designed for teams and individual developers.",
-    image: "/images/projects/taskflow.png",
-    technologies: ["React", "Firebase", "Tailwind CSS"],
-    category: "Web Apps",
-    demo: "#",
-    github: "#",
-  },
-  {
-    title: "WeatherNow",
-    description:
-      "Real-time weather application providing forecasts, location search and a clean responsive interface.",
-    image: "/images/projects/weather.png",
-    technologies: ["React", "OpenWeather", "Tailwind CSS"],
-    category: "Web Apps",
-    demo: "#",
-    github: "#",
-  },
-  {
-    title: "Portfolio V2",
-    description:
-      "Personal developer portfolio built around a VS Code-inspired interface and modern component architecture.",
-    image: "/images/projects/portfolio.png",
-    technologies: ["Next.js", "Framer Motion", "Tailwind CSS"],
-    category: "UI/UX",
-    demo: "#",
-    github: "#",
-  },
 ];
 
 const categories = [
@@ -86,8 +46,22 @@ const categories = [
 ];
 
 export default function Projects() {
-  return (
-    <main className="w-full px-4 py-6 md:px-6 lg:px-8">
+
+const [searchQuery, setSearchQuery] = useState("");
+const [selectedCategory, setSelectedCategory] = useState("All");
+
+const filteredProjects = projects.filter((project) => {
+  const matchesSearchQuery =
+    project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    project.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+  const matchesCategory = selectedCategory === "All" || project.category === selectedCategory;
+
+  return matchesSearchQuery && matchesCategory;
+});
+
+return (
+  <main className="w-full px-4 py-6 md:px-6 lg:px-8">
 
       {/* Header */}
       <section>
@@ -115,6 +89,11 @@ export default function Projects() {
             <input
               placeholder="Search projects..."
               className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+              onChange={(e) => {
+                // Handle search input change
+                console.log("Search query:", e.target.value);
+                setSearchQuery(e.target.value);
+              } }
             />
           </div>
         </div>
@@ -125,13 +104,14 @@ export default function Projects() {
         {categories.map((category, index) => (
           <Button
             key={category}
-            variant={index === 0 ? "default" : "outline"}
+            variant={selectedCategory === category ? "default" : "outline"}
             size="sm"
             className={
-              index === 0
+              selectedCategory === category
                 ? "bg-[#007ACC] hover:bg-[#3B82F6]"
                 : "border-[#1A2A3A] hover:border-[#007ACC]"
             }
+            onClick={() => setSelectedCategory(category)}
           >
             {category}
           </Button>
@@ -140,12 +120,13 @@ export default function Projects() {
 
       {/* Projects */}
       <section className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {projects.map((project) => (
-          <Card
-            key={project.title}
-            className="
-              overflow-hidden
-              border-[#1A2A3A]
+        {filteredProjects.length > 0 ? (
+          filteredProjects.map((project) => (
+            <Card
+              key={project.title}
+              className="
+                overflow-hidden
+                border-[#1A2A3A]
               bg-[#0A131E]/70
               transition-all
               duration-200
@@ -207,7 +188,11 @@ export default function Projects() {
               </div>
             </CardContent>
           </Card>
-        ))}
+        ))): (
+          <p className="col-span-full text-center text-sm text-muted-foreground">
+            No projects found.
+          </p>
+        )}
       </section>
 
     </main>

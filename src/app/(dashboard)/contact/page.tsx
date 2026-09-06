@@ -1,7 +1,9 @@
 "use client";
 
-import React from "react";
-
+import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   RiMailLine,
   RiMapPinLine,
@@ -11,11 +13,68 @@ import {
   RiSendPlaneLine,
   RiTimeLine,
 } from "@remixicon/react";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+const querySchema = z.object({
+  title: z.string().trim().min(2, "Please enter your name."),
+  email: z.string().trim().email("Please enter a valid email address."),
+  subject: z.string().trim().min(3, "Please enter a subject."),
+  message: z.string().trim().min(10, "Please enter at least 10 characters."),
+});
+
+type QueryFormValues = z.infer<typeof querySchema>;
+
 export default function Contact() {
+  const [submitStatus, setSubmitStatus] = useState<
+    { type: "success" | "error"; message: string } | ""
+  >();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<QueryFormValues>({
+    resolver: zodResolver(querySchema),
+  });
+
+  useEffect(() => {
+    if (!submitStatus) {
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      setSubmitStatus("");
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, [submitStatus]);
+
+  const onSubmit = async ({ title, email, subject, message }: QueryFormValues) => {
+    setSubmitStatus({type: "success", message: "Sending message..."});
+
+    try {
+      const response = await fetch("/api/query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, email, subject, message }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit query");
+      }
+
+      reset();
+      setTimeout(() => {
+      setSubmitStatus({ type: "success", message: "Message sent successfully!" });
+      },2000);
+    } catch {
+      setTimeout(() => {
+      setSubmitStatus({ type: "error", message: "An error occurred. Please try again." });
+      },2000);
+    }
+  };
+
   return (
     <main className="w-full px-4 py-6 md:px-6 lg:px-8">
 
@@ -44,8 +103,19 @@ export default function Contact() {
 
         <Card className="border-[#1A2A3A] bg-[#0A131E]/70">
           <CardContent className="p-5">
-
-            <form className="space-y-5">
+              {submitStatus && (
+                <p
+                  role="status"
+                  className={
+                    submitStatus.type === "success"
+                      ? "text-sm text-green-400 mb-4"
+                      : "text-sm text-red-400"
+                  }
+                >
+                  {submitStatus.message}
+                </p>
+              )}
+            <form className="space-y-5" onSubmit={handleSubmit(onSubmit)} >
 
               {/* Name + Email */}
 
@@ -63,6 +133,7 @@ export default function Contact() {
                     id="name"
                     type="text"
                     placeholder="John Doe"
+                    {...register("title")}
                     className="
                       h-10
                       w-full
@@ -78,6 +149,9 @@ export default function Contact() {
                       focus:border-[#00D4FF]
                     "
                   />
+                  {errors.title && (
+                    <p className="mt-1 text-xs text-red-400">{errors.title.message}</p>
+                  )}
                 </div>
 
                 <div>
@@ -92,6 +166,7 @@ export default function Contact() {
                     id="email"
                     type="email"
                     placeholder="john@example.com"
+                    {...register("email")}
                     className="
                       h-10
                       w-full
@@ -107,6 +182,9 @@ export default function Contact() {
                       focus:border-[#00D4FF]
                     "
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
+                  )}
                 </div>
 
               </div>
@@ -125,6 +203,7 @@ export default function Contact() {
                   id="subject"
                   type="text"
                   placeholder="Project Inquiry"
+                  {...register("subject")}
                   className="
                     h-10
                     w-full
@@ -140,6 +219,9 @@ export default function Contact() {
                     focus:border-[#00D4FF]
                   "
                 />
+                {errors.subject && (
+                  <p className="mt-1 text-xs text-red-400">{errors.subject.message}</p>
+                )}
               </div>
 
               {/* Message */}
@@ -156,6 +238,7 @@ export default function Contact() {
                   id="message"
                   rows={7}
                   placeholder="Tell me about your project..."
+                  {...register("message")}
                   className="
                     w-full
                     resize-none
@@ -171,22 +254,28 @@ export default function Contact() {
                     focus:border-[#00D4FF]
                   "
                 />
+                {errors.message && (
+                  <p className="mt-1 text-xs text-red-400">{errors.message.message}</p>
+                )}
               </div>
 
               {/* Submit */}
 
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 className="
                   w-full
                   bg-[#007ACC]
                   hover:bg-[#3B82F6]
                 "
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
 
                 <RiSendPlaneLine className="ml-2 h-4 w-4" />
               </Button>
+
+             
 
             </form>
 
@@ -213,7 +302,7 @@ export default function Contact() {
             <div className="mt-6 space-y-5">
 
               <a
-                href="mailto:abhishek@example.com"
+                href="mailto:abhi000001112222@gmail.com"
                 className="flex items-start gap-3 group"
               >
                 <RiMailLine className="mt-0.5 h-5 w-5 text-[#00D4FF]" />
@@ -224,7 +313,7 @@ export default function Contact() {
                   </p>
 
                   <p className="mt-1 text-sm group-hover:text-[#00D4FF]">
-                    abhishek@example.com
+                    abhi000001112222@gmail.com
                   </p>
                 </div>
               </a>
@@ -253,17 +342,17 @@ export default function Contact() {
 
                 <div>
                   <p className="text-xs text-muted-foreground">
-                    LinkedIn
+                    Phone
                   </p>
 
                   <p className="mt-1 text-sm group-hover:text-[#00D4FF]">
-                    linkedin.com/in/abhishek
+                    +91-9667277391
                   </p>
                 </div>
               </a>
 
 
-              <a
+              {/* <a
                 href="#"
                 className="flex items-start gap-3 group"
               >
@@ -278,10 +367,10 @@ export default function Contact() {
                     github.com/abhishek
                   </p>
                 </div>
-              </a>
+              </a> */}
 
 
-              <a
+              {/* <a
                 href="#"
                 className="flex items-start gap-3 group"
               >
@@ -296,7 +385,7 @@ export default function Contact() {
                     twitter.com/abhishek
                   </p>
                 </div>
-              </a>
+              </a> */}
 
             </div>
 
